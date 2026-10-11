@@ -1,0 +1,13 @@
+{
+  "name": "Plan dijete i teretane",
+  "short_name": "Plan 82",
+  "description": "Minimalističko praćenje dijete, treninga i puta od 97 kg do 82 kg.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#102a43",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
