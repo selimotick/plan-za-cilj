@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="bs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a43">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Plan 82">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>Plan dijete i teretane</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">14-dnevni tracker</p>
+        <h1>Plan dijete i teretane</h1>
+        <p class="muted">Dnevno prati obroke, trening, suplemente i napredak.</p>
+      </div>
+      <div class="header-actions">
+        <button class="secondary" id="exportBtn">Izvezi podatke</button>
+        <label class="secondary file-label">Uvezi podatke<input id="importInput" type="file" accept="application/json"></label>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Glavna navigacija">
+      <button class="tab active" data-tab="daily">Dnevno</button>
+      <button class="tab" data-tab="roadmap">Put do 82 kg</button>
+      <button class="tab" data-tab="meals">Plan ishrane</button>
+      <button class="tab" data-tab="workout">Trening</button>
+      <button class="tab" data-tab="measurements">Mjerenja</button>
+    </nav>
+
+    <main>
+      <section class="summary-grid">
+        <article class="summary-card"><span>Početna težina</span><strong id="startWeightCard">97 kg</strong></article>
+        <article class="summary-card"><span>Ciljna težina</span><strong id="targetWeightCard">82 kg</strong></article>
+        <article class="summary-card"><span>Trenutna težina</span><strong id="currentWeightCard">—</strong></article>
+        <article class="summary-card"><span>Završeni dani</span><strong id="completedDaysCard">0 / 14</strong></article>
+      </section>
+
+      <section class="tab-panel active" id="daily-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Dnevni unos</p>
+            <h2 id="dailyHeading">Dan 1 · 12.10.2026.</h2>
+          </div>
+          <div class="day-picker" id="dayPicker" aria-label="Izaberi dan"></div>
+        </div>
+
+        <div class="day-meta" id="dayMeta"></div>
+
+        <div class="daily-layout">
+          <article class="card">
+            <div class="card-heading"><h3>Obaveze i navike</h3><span class="progress-label" id="dailyProgressLabel">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="dailyProgressFill"></div></div>
+            <div class="check-grid" id="dailyChecks"></div>
+          </article>
+
+          <article class="card">
+            <h3>Dnevni podaci</h3>
+            <div class="form-grid">
+              <label>Težina (kg)<input id="weightInput" type="number" step="0.1" min="0" placeholder="npr. 96.8"></label>
+              <label>Voda (l)<input id="waterInput" type="number" step="0.1" min="0" placeholder="npr. 2.5"></label>
+              <label>Koraci<input id="stepsInput" type="number" step="1" min="0" placeholder="npr. 9500"></label>
+              <label>San (h)<input id="sleepInput" type="number" step="0.1" min="0" placeholder="npr. 7.5"></label>
+            </div>
+            <label class="full-label">Napomena<textarea id="noteInput" rows="4" placeholder="Kako si se osjećao, glad, energija, težine na treningu..."></textarea></label>
+            <p class="save-hint" id="saveHint">Izmjene se čuvaju automatski na ovom računaru.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="roadmap-panel">
+        <div class="section-heading"><div><p class="eyebrow">Dugoročni cilj</p><h2>Put od 97 kg do 82 kg</h2></div><span class="meta-pill">20 sedmica</span></div>
+        <article class="hero-card">
+          <div><p class="eyebrow light">Tempo plana</p><h3>Postepeno, mjerljivo, bez forsiranja</h3><p>Plan koristi prosječni cilj od približno 0,75 kg sedmično. Svake sedmice uporedi prosjek težine, energiju, glad i snagu. Ako se podaci ne ponašaju kako treba, prilagodi plan prije nego što dodatno smanjuješ hranu.</p></div>
+          <div class="hero-target"><strong>82 kg</strong><span>ciljna težina</span></div>
+        </article>
+        <div class="roadmap-grid" id="roadmapList"></div>
+        <article class="card guidance-card"><h3>Pravila prilagođavanja</h3><div class="guidance-grid"><div><strong>Ako 2 sedmice nema pada prosjeka</strong><span>Provjeri tačnost unosa, dodaj malo kretanja ili smanji unos blago, oko 100–150 kcal.</span></div><div><strong>Ako padaš prebrzo ili nemaš energiju</strong><span>Dodaj 100–150 kcal, smanji kardio i provjeri oporavak.</span></div><div><strong>Ako osjetiš bol ili neuobičajene simptome</strong><span>Prekini vježbu i razgovaraj sa zdravstvenim radnikom.</span></div></div></article>
+      </section>
+
+      <section class="tab-panel" id="meals-panel">
+        <div class="section-heading"><div><p class="eyebrow">Jelovnik</p><h2>7-dnevni jelovnik za cijeli plan</h2><p class="muted compact-note">Ovaj ciklus se ponavlja kroz 20 sedmica. Kontrolisani UH dani su vezani za najzahtjevnije treninge.</p></div></div>
+        <div class="meal-list" id="mealList"></div>
+      </section>
+
+      <section class="tab-panel" id="workout-panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Teretana</p><h2 id="workoutHeading">Ponedjeljak · Prsa i triceps</h2></div>
+          <select id="workoutDaySelect" aria-label="Izaberi dan treninga"></select>
+        </div>
+        <article class="card">
+          <div class="card-heading"><h3 id="workoutGroup">Prsa, triceps i trbušnjaci</h3><span class="progress-label" id="workoutProgressLabel">0%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="workoutProgressFill"></div></div>
+          <div class="workout-list" id="workoutList"></div>
+        </article>
+      </section>
+
+      <section class="tab-panel" id="measurements-panel">
+        <div class="section-heading"><div><p class="eyebrow">Napredak</p><h2>Sedmična mjerenja</h2></div></div>
+        <article class="card">
+          <div class="table-wrap"><table><thead><tr><th>Mjerenje</th><th>Početak<br><small>12.10.</small></th><th>Dan 7<br><small>18.10.</small></th><th>Dan 14<br><small>25.10.</small></th></tr></thead><tbody id="measurementRows"></tbody></table></div>
+        </article>
+        <article class="card weekly-card">
+          <h3>Sedmični izvještaj</h3>
+          <div class="table-wrap"><table><thead><tr><th>Pokazatelj</th><th>Prva sedmica</th><th>Druga sedmica</th></tr></thead><tbody id="weeklyRows"></tbody></table></div>
+        </article>
+        <button class="danger-link" id="resetBtn">Obriši sva lokalna praćenja</button>
+      </section>
+    </main>
+
+    <footer class="footer">Podaci se čuvaju lokalno u browseru. Za sigurnost povremeno izvezi rezervnu kopiju.</footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
